@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv= "X-UA-Compatible" content = "IE-edge"/>
+        <meta name="viewport" content= "width=device-width, initial-scale=1.0" />
+        <title>Greeter Dapp</title>
+        <style>
+            body {
+              text-align: center;
+              font-family: Arial, Helvetica, sans-serif;
+            }
+          
+            div {
+              width: 20%;
+              margin: 0 auto;
+              display: flex;
+              flex-direction: column;
+            }
+          
+            button {
+              width: 100%;
+              margin: 10px 0px 5px 0px;
+            }
+          </style>
+    </head>
+    <body>
+        <div>
+        <h1>Greeter Dapp</h1>
+        <p>Please give the name of person you want to greet:</p>
+        <label for = "name">Name</label>
+        <input type="text" id = "name"/>
+        <button onclick="setName()">Input Name</button>
+        <button onclick="getName()">Greet</button>
+        </div>
+         
+    </body>
+</html>
