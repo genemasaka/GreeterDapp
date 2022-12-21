@@ -34,5 +34,65 @@
         <button onclick="getName()">Greet</button>
         </div>
          
+        <script src = "https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+        type="application/javascript"></script>
+        <script>
+            const GreeterContractAddress = '0xED44687be0b95E87edDca87096AEe5B50C617aDe';
+            const GreeterContractABI =  [
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "setName",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getName",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+        const provider = new ethers.providers.Web3Provider(window.ethreum, "goerli");
+        provider.send("eth_requestAccounts", []).then(() => {
+            provider.listAccounts().then((accounts) => {
+                signer = provider.getSigner(accounts[0]);
+                GreeterContract = new ethers.Contract(
+                    GreeterContractAddress,
+                    GreeterContractABI,
+                    signer
+                );
+            });
+        });
+
+        
+        </script>
     </body>
 </html>
