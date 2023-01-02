@@ -5,12 +5,23 @@
         <meta http-equiv= "X-UA-Compatible" content = "IE-edge"/>
         <meta name="viewport" content= "width=device-width, initial-scale=1.0" />
         <title>Greeter Dapp</title>
+
         <style>
             body {
               text-align: center;
               font-family: Arial, Helvetica, sans-serif;
+              background-color: rgb(1, 0, 75);
             }
-          
+            h1 {
+              color: white;
+            }
+            p
+            {
+              color: white;
+            }
+            label {
+              color: white;
+            }
             div {
               width: 20%;
               margin: 0 auto;
@@ -21,6 +32,7 @@
             button {
               width: 100%;
               margin: 10px 0px 5px 0px;
+              border-radius: 7px;
             }
           </style>
     </head>
@@ -30,15 +42,14 @@
         <p>Please give the name of person you want to greet:</p>
         <label for = "name">Name</label>
         <input type="text" id = "name"/>
-        <button onclick="setName()">Input Name</button>
-        <button onclick="getName()">Greet</button>
+        <button onclick = "setName()">Input Name</button>
+        <button onclick = "getName()" >Greet</button>
         </div>
-         
-        <script src = "https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
-        type="application/javascript"></script>
-        <script>
-            const GreeterContractAddress = '0xED44687be0b95E87edDca87096AEe5B50C617aDe';
-            const GreeterContractABI =  [
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+    <script>
+      const provider = new ethers.providers.Web3Provider(window.ethereum, "goerli");
+      const greeterContractAdd = "0xE26fd2704fE15060186da8F62417dAFbaae777c3";
+      const greeterContractABI = [
 	{
 		"inputs": [
 			{
@@ -79,20 +90,34 @@
 		"type": "function"
 	}
 ];
+      let greeterContract;
+      let signer;
 
-        const provider = new ethers.providers.Web3Provider(window.ethreum, "goerli");
-        provider.send("eth_requestAccounts", []).then(() => {
-            provider.listAccounts().then((accounts) => {
-                signer = provider.getSigner(accounts[0]);
-                GreeterContract = new ethers.Contract(
-                    GreeterContractAddress,
-                    GreeterContractABI,
-                    signer
-                );
-            });
+      provider.send("eth_requestAccounts", []).then(() => {
+        provider.listAccounts().then(function (accounts) {
+          signer = provider.getSigner(accounts[0]);
+          greeterContract = new ethers.Contract(
+            greeterContractAdd,
+            greeterContractABI,
+            signer
+          );
+          console.log(greeterContract)
+
         });
+      });
+      async function getName() {
+        const getNamePromise = greeterContract.getName();
+        const name = await getNamePromise;
+        console.log("Hello ", name);
+      }
 
-        
-        </script>
+      async function setName() {
+        const name = document.getElementById("name").value;
+        const setNamePromise = greeterContract.setName(name);
+        await setNamePromise;
+      } 
+
+
+    </script>
     </body>
 </html>
